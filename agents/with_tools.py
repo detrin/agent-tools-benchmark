@@ -7,14 +7,13 @@ from benchmark.types import Sample
 
 
 class WithToolsAgent(Agent):
-    """
-    Agent that receives tools implementing the deterministic sub-tasks.
-    The LLM is responsible only for orchestration and final judgment.
-    """
-
-    def __init__(self, model: str = "claude-opus-4-6"):
+    def __init__(self, model: str = "claude-opus-4-6", aws_profile: str | None = None):
         super().__init__(model)
-        self._client = anthropic.Anthropic()
+        self._client = (
+            anthropic.AnthropicBedrock(aws_profile=aws_profile)
+            if aws_profile
+            else anthropic.Anthropic()
+        )
 
     def run(self, task: Task, sample: Sample, rule_count: int) -> str:
         system = task.tools_system_prompt(rule_count)

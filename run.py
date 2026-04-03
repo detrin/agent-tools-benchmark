@@ -88,11 +88,12 @@ def main() -> None:
     parser.add_argument("--samples", type=int, default=30, help="Samples per cell")
     parser.add_argument("--trials", type=int, default=3, help="Trials per sample (consistency)")
     parser.add_argument("--model", default="claude-opus-4-6", help="Claude model to use")
+    parser.add_argument("--aws-profile", default=None, help="AWS profile for Bedrock (skips ANTHROPIC_API_KEY)")
     parser.add_argument("--output", type=Path, default=None, help="Save JSON results to file")
     args = parser.parse_args()
 
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("Error: ANTHROPIC_API_KEY not set", file=sys.stderr)
+    if not args.aws_profile and not os.environ.get("ANTHROPIC_API_KEY"):
+        print("Error: set ANTHROPIC_API_KEY or pass --aws-profile for Bedrock", file=sys.stderr)
         sys.exit(1)
 
     task_map = {t.name: t for t in ALL_TASKS}
@@ -112,8 +113,8 @@ def main() -> None:
     )
 
     agents = {
-        "instructions_only": InstructionsOnlyAgent(model=args.model),
-        "with_tools": WithToolsAgent(model=args.model),
+        "instructions_only": InstructionsOnlyAgent(model=args.model, aws_profile=args.aws_profile),
+        "with_tools": WithToolsAgent(model=args.model, aws_profile=args.aws_profile),
     }
 
     tasks = [task_map[n] for n in task_names]
