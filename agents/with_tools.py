@@ -1,6 +1,7 @@
 from __future__ import annotations
 import json
 import anthropic
+from anthropic.types import ToolParam, MessageParam
 from .base import Agent
 from tasks.base import Task
 from benchmark.types import Sample
@@ -18,9 +19,9 @@ class WithToolsAgent(Agent):
     def run(self, task: Task, sample: Sample, rule_count: int) -> str:
         system = task.tools_system_prompt(rule_count)
         user = task.format_input(sample.input)
-        tools = task.tool_definitions
+        tools: list[ToolParam] = task.tool_definitions  # type: ignore[assignment]
 
-        messages = [{"role": "user", "content": user}]
+        messages: list[MessageParam] = [{"role": "user", "content": user}]
 
         # Agentic loop: keep running until no more tool calls
         while True:
@@ -51,7 +52,7 @@ class WithToolsAgent(Agent):
                             "tool_use_id": block.id,
                             "content": json.dumps(result) if not isinstance(result, str) else result,
                         })
-                messages.append({"role": "user", "content": tool_results})
+                messages.append({"role": "user", "content": tool_results})  # type: ignore[typeddict-item]
             else:
                 break
 

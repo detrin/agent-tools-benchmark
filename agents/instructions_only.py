@@ -1,5 +1,6 @@
 from __future__ import annotations
 import anthropic
+from anthropic.types import TextBlock
 from .base import Agent
 from tasks.base import Task
 from benchmark.types import Sample
@@ -24,4 +25,5 @@ class InstructionsOnlyAgent(Agent):
             system=system,
             messages=[{"role": "user", "content": user}],
         )
-        return response.content[0].text.strip()
+        block = response.content[0]
+        return block.text.strip() if isinstance(block, TextBlock) else ""

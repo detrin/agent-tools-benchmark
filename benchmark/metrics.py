@@ -3,7 +3,7 @@ from collections import defaultdict
 from .types import TrialResult, BenchmarkMetrics
 
 
-def compute_metrics(results: list[TrialResult]) -> list[BenchmarkMetrics]:
+def compute_metrics(results: list[TrialResult], model: str = "") -> list[BenchmarkMetrics]:
     """Aggregate trial results into per-(task, config, rule_count) metrics."""
     # Group by (task, config, rule_count)
     groups: dict[tuple, list[TrialResult]] = defaultdict(list)
@@ -46,6 +46,7 @@ def compute_metrics(results: list[TrialResult]) -> list[BenchmarkMetrics]:
             consistency=consistency,
             n_samples=len(by_sample),
             n_trials=n_trials,
+            model=model,
         ))
 
     return metrics

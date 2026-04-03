@@ -1,0 +1,62 @@
+[
+  {
+    "task_name": "alert_dedup",
+    "agent_config": "instructions_only",
+    "rule_count": 1,
+    "accuracy": 0.0,
+    "edge_case_accuracy": NaN,
+    "consistency": 1.0,
+    "n_samples": 1,
+    "n_trials": 1
+  },
+  {
+    "task_name": "alert_dedup",
+    "agent_config": "instructions_only",
+    "rule_count": 2,
+    "accuracy": 0.5,
+    "edge_case_accuracy": 1.0,
+    "consistency": 1.0,
+    "n_samples": 2,
+    "n_trials": 1
+  },
+  {
+    "task_name": "alert_dedup",
+    "agent_config": "instructions_only",
+    "rule_count": 3,
+    "accuracy": 0.5,
+    "edge_case_accuracy": 1.0,
+    "consistency": 1.0,
+    "n_samples": 2,
+    "n_trials": 1
+  },
+  {
+    "task_name": "alert_dedup",
+    "agent_config": "with_tools",
+    "rule_count": 1,
+    "accuracy": 1.0,
+    "edge_case_accuracy": NaN,
+    "consistency": 1.0,
+    "n_samples": 1,
+    "n_trials": 1
+  },
+  {
+    "task_name": "alert_dedup",
+    "agent_config": "with_tools",
+    "rule_count": 2,
+    "accuracy": 1.0,
+    "edge_case_accuracy": 1.0,
+    "consistency": 1.0,
+    "n_samples": 2,
+    "n_trials": 1
+  },
+  {
+    "task_name": "alert_dedup",
+    "agent_config": "with_tools",
+    "rule_count": 3,
+    "accuracy": 0.5,
+    "edge_case_accuracy": 0.0,
+    "consistency": 1.0,
+    "n_samples": 2,
+    "n_trials": 1
+  }
+]

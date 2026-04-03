@@ -1,6 +1,5 @@
 from __future__ import annotations
 import time
-import asyncio
 from typing import TYPE_CHECKING
 from .types import BenchmarkConfig, TrialResult, BenchmarkMetrics
 from .metrics import compute_metrics
@@ -57,4 +56,4 @@ class BenchmarkHarness:
                                 latency_ms=latency_ms,
                             ))
 
-        return compute_metrics(results)
+        return compute_metrics(results, model=self.config.model)

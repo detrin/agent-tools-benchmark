@@ -37,6 +37,10 @@ class Task(ABC):
     def run_tool(self, tool_name: str, tool_input: dict) -> Any:
         """Execute a tool call and return the result (as a string)."""
 
+    @abstractmethod
+    def format_input(self, input: dict[str, Any]) -> str:
+        """Format sample input as a user message string."""
+
     def instructions_system_prompt(self, rule_count: int) -> str:
         """System prompt for instructions-only agent with first rule_count rules."""
         rules_text = "\n".join(f"{i+1}. {r}" for i, r in enumerate(self.rules[:rule_count]))

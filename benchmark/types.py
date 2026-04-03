@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -35,6 +35,7 @@ class BenchmarkMetrics:
     consistency: float          # % of samples where all K trials agree
     n_samples: int
     n_trials: int
+    model: str = ""
 
 
 @dataclass

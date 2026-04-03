@@ -63,11 +63,12 @@ def print_table(metrics: list[BenchmarkMetrics]) -> None:
 def save_results(metrics: list[BenchmarkMetrics], path: Path) -> None:
     data = [
         {
+            "model": m.model,
             "task_name": m.task_name,
             "agent_config": m.agent_config,
             "rule_count": m.rule_count,
             "accuracy": m.accuracy,
-            "edge_case_accuracy": m.edge_case_accuracy,
+            "edge_case_accuracy": None if m.edge_case_accuracy != m.edge_case_accuracy else m.edge_case_accuracy,
             "consistency": m.consistency,
             "n_samples": m.n_samples,
             "n_trials": m.n_trials,
@@ -132,7 +133,8 @@ def main() -> None:
         save_results(metrics, args.output)
     else:
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-        out = Path("results") / f"run_{ts}.json"
+        model_slug = args.model.replace(".", "-").replace("/", "-")
+        out = Path("results") / f"run_{model_slug}_{ts}.json"
         out.parent.mkdir(exist_ok=True)
         save_results(metrics, out)
 
