@@ -92,6 +92,18 @@ Results from 30 samples × 3 trials per cell, using AWS Bedrock.
 
 **Cross-model** — Haiku 4.5 matches or beats Sonnet 4.6 on structured tasks when tools are provided, at a fraction of the cost.
 
+## Conclusion
+
+Native function calling is not universally better than prompt-based instructions — the benefit depends on task structure.
+
+For tasks that decompose cleanly into discrete lookups or comparisons (`alert_dedup`), tools provide a decisive accuracy lift: 0–77% → 95–100%, with perfect consistency. The structured interface removes ambiguity and forces the model to apply each rule precisely. Notably, Haiku 4.5 with tools matches Sonnet 4.6 at a fraction of the cost, making the architecture choice more impactful than the model choice.
+
+For tasks requiring integrated reasoning over multiple conditions (`expense_validator`), instructions-only wins or ties. Wrapping the logic in tool calls fragments what should be a single holistic judgment, introducing errors on Sonnet 4.6 (−20pp accuracy). Haiku 4.5 manages to recover this with tools, but the pattern warrants caution.
+
+The low consistency scores on `expense_validator` are likely a measurement artifact: the evaluator normalizes output before checking correctness, but the consistency metric uses exact string comparison — so `"APPROVE"` and `"approve"` count as inconsistent even when both are right. This should be fixed before drawing conclusions about decision stability on that task.
+
+**Design principle:** match the agent architecture to the task. Use native FC when rules map 1:1 to tool calls; use instructions when rules interact and require judgment. When in doubt, benchmark both — the right choice is task-dependent, not model-dependent.
+
 ## Requirements
 
 - Python 3.11+
